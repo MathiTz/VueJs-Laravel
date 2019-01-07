@@ -1,7 +1,7 @@
 <template id="suprimento-list">
     <div class="row">
         <div class="pull-right">
-            <router-link class="btn btn-xe btn-primary">
+            <router-link class="btn btn-xe btn-primary" v-bind:to="{path: '/add-suprimento'}">
                 <span class="glyphicon glyphicon-plus"></span>
                 Adicione outro item
             </router-link>
@@ -40,9 +40,23 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data: function() {
+    return { suprimentos: "" };
+  },
+  created: function() {
+    let uri = "http://localhost:8000/suprimentos/";
+    Axios.get(uri).then(response => {
+      this.suprimentos = response.data;
+    });
+  },
+  computed: {
+    filteredSuprimentos: function() {
+      if (this.suprimentos.length) {
+        return this.suprimentos;
+      }
+    }
+  }
+};
 </script>
-
-<style lang="css ">
-</style>
 
